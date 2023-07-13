@@ -6,7 +6,7 @@ import viagem.servicos.Viajavel;
 
 public abstract class ViagemAbstrata implements Viajavel {
 
-    public static final DateTimeFormatter DTF = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private final DateTimeFormatter getDTF = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     private Destino destino;
     private LocalDate dataEmbarque;
@@ -18,6 +18,10 @@ public abstract class ViagemAbstrata implements Viajavel {
         this.dataRetorno = dataRetorno;
     }
 
+    public DateTimeFormatter getDTF() {
+        return getDTF;
+    }
+    
     public Destino getDestino() {
         return destino;
     }

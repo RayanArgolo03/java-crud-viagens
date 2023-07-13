@@ -38,6 +38,7 @@ public class Cidade {
         System.out.println();
         int i = 0;
 
+        System.out.println("Locais disponíveis para a cidade de " +nome);
         for (Local local : locais) {
             System.out.println((i + 1) + " - " + local);
             i++;

@@ -10,7 +10,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //Refatore lógica de viajar!!
         Scanner sc = new Scanner(System.in);
 
         try {
@@ -19,33 +18,36 @@ public class Main {
 
             int opcAcao = 0;
             do {
-
+                
                 System.out.println();
                 gv.exibirOpcoesAcao();
+                
                 System.out.print("Sua escolha: ");
-
                 opcAcao = sc.nextInt();
 
-                while (opcAcao < 0 || opcAcao > 4) {
+                while (opcAcao <= 0 || opcAcao > 4) {
 
-                    System.out.println("Opção inválida!");
+                    System.out.println();
+                    System.out.println("Opção inválida! (1 a 4)");
 
                     gv.exibirOpcoesAcao();
-                    System.out.println("Sua escolha: ");
+                    System.out.print("Sua escolha: ");
 
                     opcAcao = sc.nextInt();
                 }
 
-                gv.getGav().gerenciarAcoes(opcAcao);
+                gv.getGa().gerenciarAcoes(opcAcao);
 
             } while (opcAcao > 0 && opcAcao <= 4);
         }
         
         catch (GerenciadorException e) {
+            System.out.println();
             System.out.println(e.getMessage());
         }
         
         catch (RuntimeException e) {
+            System.out.println();
             System.out.println(e.getMessage());
         }
         

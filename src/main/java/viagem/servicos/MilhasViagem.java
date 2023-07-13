@@ -15,7 +15,7 @@ public class MilhasViagem extends ViagemAbstrata {
     public void imprimirDadosViagem(Destino d) {
 
         System.out.println("Viagem MILHAS - " + d);
-        System.out.println("Embarque - " + DTF.format(getDataEmbarque()) + ", Retorno - " + DTF.format(getDataRetorno()));
+        System.out.println("Embarque - " + getDTF().format(getDataEmbarque()) + ", Retorno - " + getDTF().format(getDataRetorno()));
     }
 
     @Override
@@ -23,8 +23,8 @@ public class MilhasViagem extends ViagemAbstrata {
 
         System.out.println();
         System.out.println("Viagem confirmada!");
-        System.out.println("Irá " + DTF.format(getDataEmbarque()) + " para " + d + " com a MILHAS");
-        System.out.println("Retorno previsto: " + DTF.format(getDataRetorno()));
+        System.out.println("Irá " + getDTF().format(getDataEmbarque()) + " para " +d.getCidade().getSiglaEstado()+ ", " +d + " com a MILHAS");
+        System.out.println("Retorno previsto: " + getDTF().format(getDataRetorno()));
     }
 
 }

@@ -2,13 +2,13 @@
 package viagem.enums;
 
 
-public enum AlteracoesViagem {
+public enum AlteracaoViagem {
     
-    ALTERAR_LOCAL (1), ALTERAR_EMBARQUE (2), ALTERAR_RETORNO (3);
+    ALTERAR_DESTINO (1), ALTERAR_EMBARQUE (2), ALTERAR_RETORNO (3);
     
     private int id;
 
-    private AlteracoesViagem(int id) {
+    private AlteracaoViagem(int id) {
         this.id = id;
     }
 

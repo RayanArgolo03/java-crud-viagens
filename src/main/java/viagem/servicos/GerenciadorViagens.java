@@ -1,10 +1,9 @@
 package viagem.servicos;
 
-import viagem.enums.TipoServicoViagem;
 import java.time.LocalDate;
 import java.util.*;
 import viagem.entidades.*;
-import viagem.enums.SiglaEstado;
+import viagem.enums.*;
 
 public class GerenciadorViagens {
 
@@ -13,40 +12,53 @@ public class GerenciadorViagens {
 
     private List<ViagemAbstrata> viagensRealizadas = new ArrayList<>();
 
+    //Injeta dependências
     public GerenciadorViagens(GerenciarAcoes ga, ServicoIniciarDestinos sid) {
 
         this.ga = ga;
         this.sid = sid;
         iniciarGerenciadorAcoes();
+        
     }
 
     //Relação bidirecional para iniciar gerenciador de ações
     private void iniciarGerenciadorAcoes() {
         ga.setGv(this);
     }
-
-    protected List<Destino> iniciarDestinos(SiglaEstado se, TipoServicoViagem tsv) {
-        return sid.iniciarDestinos(se, tsv);
-    }
-
+    
+    
     public List<ViagemAbstrata> getViagensRealizadas() {
         return viagensRealizadas;
     }
 
-    public GerenciarAcoes getGav() {
+    public GerenciarAcoes getGa() {
         return ga;
+    }
+
+    public ServicoIniciarDestinos getSid() {
+        return sid;
+    }
+
+    //Inicia destinos dado serviço escolhido
+    protected List<Destino> iniciarDestinos(SiglaEstado se, TipoServicoViagem tsv) {
+        return getSid().iniciarDestinos(se, tsv);
     }
 
     public void exibirOpcoesAcao() {
 
-        System.out.println("1 - Viajar");
-        System.out.println("2 - Alterar viagem realizada");
-        System.out.println("3 - Excluir viagem realizada");
-        System.out.println("4 - Imprimir viagens realizadas");
+        String[] opcoesAcao = new String[]
+        {"Viajar", "Alterar viagem realizada", "Excluir viagem realizada", "Imprimir viagens realizadas"};
+        
+        int i = 0;
+        System.out.println();
+        for (String opcao : opcoesAcao) {
+            System.out.println((i + 1) + " - " + opcao);
+            i++;
+        }
 
     }
 
-    public void viajar(TipoServicoViagem tsv, Destino d, LocalDate dataEmbarque, LocalDate dataRetorno) {
+    protected void viajar(TipoServicoViagem tsv, Destino d, LocalDate dataEmbarque, LocalDate dataRetorno) {
 
         ViagemAbstrata v = tsv.equals(TipoServicoViagem.HURB) 
                 ? new HurbViagem(d, dataEmbarque, dataRetorno)
@@ -57,13 +69,16 @@ public class GerenciadorViagens {
     }
     
     private void adicionarViagem(ViagemAbstrata v){
-        viagensRealizadas.add(v);
+        getViagensRealizadas().add(v);
     }
 
-    public void imprimirViagens() {
+    protected void imprimirViagens() {
 
         int i = 0;
 
+        System.out.println();
+        System.out.println("Viagens realizadas: ");
+        
         for (ViagemAbstrata v : getViagensRealizadas()) {
 
             System.out.println();
@@ -75,18 +90,32 @@ public class GerenciadorViagens {
 
     }
 
-    public void alterarViagem(int i, ViagemAbstrata novaViagem) {
+    protected void alterarViagem(AlteracaoViagem opcaoAlteracao, int indexViagemAntiga, ViagemAbstrata novaViagem) {
         
-        viagensRealizadas.set(i, novaViagem);
+        //Formatando exibição de alteração feita
+        String aux = opcaoAlteracao.toString();
+        String alteracaoFeita = aux.substring(aux.indexOf("_") + 1, aux.length()).toLowerCase();
+        
+        viagensRealizadas.set(indexViagemAntiga, novaViagem);
         
         System.out.println();
-        System.out.println("Viagem alterada!");
+        exibirAcaoRealizada("Viagem alterada! Viagem com novo " +alteracaoFeita+ ":");
         
         novaViagem.imprimirDadosViagem(novaViagem.getDestino());
     }
 
-    public void excluirViagem(Destino d) {
-        getViagensRealizadas().remove(d);
+    protected void excluirViagem(TipoServicoViagem tsv, SiglaEstado se, ViagemAbstrata viagemExcluida) {
+
+        Destino d = viagemExcluida.getDestino();
+        getViagensRealizadas().remove(viagemExcluida);
+        
+        System.out.println();
+        exibirAcaoRealizada("A viagem feita pelo serviço " + tsv.toString() + " para " +se.toString()+ ", " +d+ " foi excluída!");
+
+    }
+    
+    private void exibirAcaoRealizada(String acao){
+        System.out.println(acao);
     }
 
 }

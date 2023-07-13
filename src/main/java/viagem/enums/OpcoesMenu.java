@@ -15,6 +15,4 @@ public enum OpcoesMenu {
         return id;
     }
     
-    
-    
 }
